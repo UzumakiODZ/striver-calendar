@@ -170,6 +170,6 @@
 
 @media (max-width: 768px) {
     .prevAction, .nextAction {
-        width: 10%;
+        width: 5%;
     }
 }
