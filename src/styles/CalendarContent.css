@@ -1,0 +1,175 @@
+.calendarContent {
+    width: 100%;
+    height: 400px;
+    display: grid;
+    padding: 7px;
+    font-family: Pixelify Sans, sans-serif;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+}
+
+.calendarWeekday {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.emptyDay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #eceff3;
+}
+
+.calendarDay{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    border: 1px solid #eceff3;
+    cursor: pointer;
+    min-height: 52px;
+    background: #fff;
+    text-align: left;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.dayNumber {
+    padding: 4px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.selectedRange {
+    background-color: #eaf2ff;
+}
+
+.eventLines {
+    position: absolute;
+    width: 100%;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    pointer-events: auto;
+}
+
+.eventLine {
+    width: 100%;
+    height: 4px;
+    background: #1f6feb;
+    cursor: help;
+    border: none;
+    padding: 0;
+    display: block;
+}
+
+.eventHoverDialog {
+    position: fixed;
+    z-index: 40;
+    pointer-events: none;
+    background: rgba(15, 23, 42, 0.95);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    max-width: 220px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.eventHoverTitle {
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 13px;
+}
+
+.eventHoverDates {
+    font-size: 12px;
+    opacity: 0.92;
+}
+
+.prevAction, .nextAction {
+    z-index: 2;
+    top: 0;
+    position: fixed;
+    padding: 8px 12px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.prevAction{
+    left: 0;
+    width: 20%;
+    height: 100%;
+}
+
+.nextAction{
+    right: 0;
+    width: 20%;
+    height: 100%;
+}
+
+.calendarActions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.newYearPage {
+    width: 100%;
+    height: 400px;
+    border: 1px solid #eceff3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #f8fbff;
+}
+
+.eventModalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 30;
+}
+
+.eventModal {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.eventModal input,
+.eventModal textarea {
+    padding: 8px;
+}
+
+.eventModal textarea {
+    resize: none;
+    height: 90px;
+}
+
+.eventActionButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+    .prevAction, .nextAction {
+        width: 10%;
+    }
+}

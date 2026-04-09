@@ -1,0 +1,18 @@
+.heroImage {
+    width: 100%;
+    height: 200px;
+    font-family: Pixelify Sans, sans-serif;
+    clip-path: polygon(50% 0%, 100% 0%, 100% 35%, 100% 100%, 70% 89%, 56% 100%, 31% 92%, 0% 100%, 0% 35%, 0% 0%);
+}
+
+.heroYearMonth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    width: 150px;
+    flex-direction: column;
+    background-color: aliceblue;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    clip-path: polygon(0% 10%, 100% 0%, 75% 100%, 0% 100%);
+}
