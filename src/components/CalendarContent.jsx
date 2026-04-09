@@ -63,6 +63,7 @@ function CalendarContent() {
     const [boundaryPage, setBoundaryPage] = useState(null);
     const [hoveredEventInfo, setHoveredEventInfo] = useState(null);
     const [selectedEventForGoogle, setSelectedEventForGoogle] = useState(null);
+    const [activeTouchPointerId, setActiveTouchPointerId] = useState(null);
 
     const clearRangeAndModal = () => {
         setRangeStart(null);
@@ -94,12 +95,6 @@ function CalendarContent() {
         );
     }
 
-    const goCurrentMonth = () => {
-        setBoundaryPage(null);
-        clearRangeAndModal();
-        setCurrentDate(new Date());
-    }
-
     const goPreviousMonth = () => {
         if (boundaryPage === "after") {
             setBoundaryPage(null);
@@ -122,10 +117,14 @@ function CalendarContent() {
         );
     }
 
-    const handleDragStart = (day) => {
+    const handleDragStart = (day, pointerEvent) => {
         setRangeStart(day);
         setRangeEnd(day);
         setIsDragging(true);
+
+        if (pointerEvent?.pointerType === "touch") {
+            setActiveTouchPointerId(pointerEvent.pointerId);
+        }
     };
 
     const handleDragEnter = (day) => {
@@ -142,6 +141,7 @@ function CalendarContent() {
         }
 
         setIsDragging(false);
+        setActiveTouchPointerId(null);
     };
 
     useEffect(() => {
@@ -155,6 +155,7 @@ function CalendarContent() {
             }
 
             setIsDragging(false);
+            setActiveTouchPointerId(null);
         };
 
         globalThis.addEventListener("pointerup", stopDrag);
@@ -163,6 +164,42 @@ function CalendarContent() {
             globalThis.removeEventListener("pointerup", stopDrag);
         };
     }, [isDragging, rangeStart, rangeEnd]);
+
+    useEffect(() => {
+        const syncTouchRangeOnMove = (pointerEvent) => {
+            if (!isDragging || !rangeStart) {
+                return;
+            }
+
+            if (pointerEvent.pointerType !== "touch") {
+                return;
+            }
+
+            if (activeTouchPointerId !== null && pointerEvent.pointerId !== activeTouchPointerId) {
+                return;
+            }
+
+            const target = document.elementFromPoint(pointerEvent.clientX, pointerEvent.clientY);
+            const dayElement = target?.closest("[data-day-ts]");
+            if (!dayElement) {
+                return;
+            }
+
+            const nextTimestamp = Number(dayElement.dataset.dayTs);
+            if (Number.isNaN(nextTimestamp)) {
+                return;
+            }
+
+            pointerEvent.preventDefault();
+            setRangeEnd(new Date(nextTimestamp));
+        };
+
+        globalThis.addEventListener("pointermove", syncTouchRangeOnMove, { passive: false });
+
+        return () => {
+            globalThis.removeEventListener("pointermove", syncTouchRangeOnMove);
+        };
+    }, [isDragging, rangeStart, activeTouchPointerId]);
 
     useEffect(() => {
         if (typeof globalThis === "undefined" || !globalThis.localStorage) {
@@ -328,8 +365,9 @@ function CalendarContent() {
                     {days.map((day) => (
                         <div
                             key={day.getTime()}
+                            data-day-ts={day.getTime()}
                             className={`calendarDay ${isDayInSelectedRange(day) ? "selectedRange" : ""}`}
-                            onPointerDown={() => handleDragStart(day)}
+                            onPointerDown={(pointerEvent) => handleDragStart(day, pointerEvent)}
                             onPointerEnter={() => handleDragEnter(day)}
                             onPointerUp={handleDragEnd}
                         >
@@ -366,8 +404,8 @@ function CalendarContent() {
             )}
 
             <div className="calendarActions">
-                <div className="prevAction" onClick={goPreviousMonth}></div>
-                <div className="nextAction" onClick={goNextMonth}></div>
+                <button type="button" className="prevAction" onClick={goPreviousMonth}>Previous Month</button>
+                <button type="button" className="nextAction" onClick={goNextMonth}>Next Month</button>
             </div>
 
 

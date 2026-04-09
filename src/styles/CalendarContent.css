@@ -6,6 +6,7 @@
     font-family: Pixelify Sans, sans-serif;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
+    touch-action: none;
 }
 
 .calendarWeekday {
@@ -90,31 +91,19 @@
 }
 
 .prevAction, .nextAction {
-    z-index: 2;
-    top: 0;
-    position: fixed;
     padding: 8px 12px;
-    color: #fff;
+    color: #1e293b;
     border: none;
+    background: #ffffffcc;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
 }
 
-.prevAction{
-    left: 0;
-    width: 20%;
-    height: 100%;
-}
-
-.nextAction{
-    right: 0;
-    width: 20%;
-    height: 100%;
-}
-
 .calendarActions {
     display: flex;
+    margin-top: 10px;
     gap: 8px;
     flex-wrap: wrap;
 }
@@ -174,14 +163,10 @@
         padding: 0px;
     }
 
-    .prevAction, .nextAction {
-        width: 10%;
-    }
 }
 
 @media (max-width: 425px) {
-    
-    .prevAction, .nextAction {
-        width: 5%;
+    .calendarActions {
+        justify-content: center;
     }
 }
