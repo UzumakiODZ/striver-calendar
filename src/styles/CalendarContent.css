@@ -169,6 +169,18 @@
 }
 
 @media (max-width: 768px) {
+
+    .calendarContent {
+        padding: 0px;
+    }
+
+    .prevAction, .nextAction {
+        width: 10%;
+    }
+}
+
+@media (max-width: 425px) {
+    
     .prevAction, .nextAction {
         width: 5%;
     }
